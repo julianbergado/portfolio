@@ -256,3 +256,43 @@ a:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Put a fixed image behind the intro text to create a gentle parallax effect. */
+.intro--parallax {
+  color: white;
+  background-image:
+    linear-gradient(rgb(20 20 18 / 45%), rgb(20 20 18 / 55%)),
+    url("images/luffy2.png");
+  background-position: center 40%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Make the small intro label readable over the image. */
+.intro--parallax .eyebrow {
+  color: white;
+}
+
+/* Make the bio readable over the image. */
+.intro--parallax .intro-bottom p {
+  color: white;
+}
+
+/* Keep the Explore link readable over the image. */
+.intro--parallax .scroll-link {
+  color: white;
+}
+
+/* Fixed backgrounds can be unreliable on phones; show the image normally there. */
+@media (max-width: 650px), (prefers-reduced-motion: reduce) {
+  .intro--parallax {
+    background-attachment: scroll;
+  }
+}
+
+/* Stack the bio and link, aligned to the left. */
+.intro-bottom {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 18px;
+}
