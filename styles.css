@@ -266,6 +266,10 @@ a:hover { color: var(--accent); }
   background-position: center 40%;
   background-size: cover;
   background-attachment: fixed;
+
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding-inline: max(32px, calc((100vw - var(--page-width)) / 2));
 }
 
 /* Make the small intro label readable over the image. */
