@@ -257,54 +257,104 @@ a:hover { color: var(--accent); }
   html { scroll-behavior: auto; }
 }
 
-/* Put a fixed image behind the intro text to create a gentle parallax effect. */
-.intro--parallax {
-  color: white;
-  background-image:
-    linear-gradient(rgb(20 20 18 / 45%), rgb(20 20 18 / 55%)),
-    var(--parallax-image, url("images/luffy2.png"));
-  background-position: center 40%;
-  background-size: cover;
-  background-attachment: fixed;
+/* Shared setup for sections that display a parallax background image. */
+.intro--parallax,
+.commission-parallax {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #24231f;
+}
 
+/* Let the intro image fill the screen width and set its crop position. */
+.intro--parallax {
+  --parallax-position: center 40%;
+  --parallax-shade: linear-gradient(
+    rgb(20 20 18 / 45%),
+    rgb(20 20 18 / 55%)
+  );
+
+  color: white;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   padding-inline: max(32px, calc((100vw - var(--page-width)) / 2));
 }
 
-/* Make the small intro label readable over the image. */
+/* Give the shelf section a darker overlay so its text stays legible. */
+.commission-parallax {
+  --parallax-position: center center;
+  --parallax-shade: linear-gradient(
+    rgb(20 20 18 / 62%),
+    rgb(20 20 18 / 72%)
+  );
+}
+
+/* Keep the intro label readable on top of its background image. */
 .intro--parallax .eyebrow {
   color: white;
 }
 
-/* Make the bio readable over the image. */
+/* Keep the intro description readable on top of its background image. */
 .intro--parallax .intro-bottom p {
   color: white;
 }
 
-/* Keep the Explore link readable over the image. */
+/* Keep the Explore link readable on top of its background image. */
 .intro--parallax .scroll-link {
   color: white;
 }
 
-/* Fixed backgrounds can be unreliable on phones; show the image normally there. */
-@media (max-width: 650px), (prefers-reduced-motion: reduce) {
-  .intro--parallax {
-    background-attachment: scroll;
-  }
-}
-
-/* Add an image background and dark overlay to the shelf section. */
-.commission-parallax {
+/* Draw the current background image behind the section's content. */
+.intro--parallax::before,
+.commission-parallax::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: -8%;
   background-image:
-    linear-gradient(rgb(20 20 18 / 62%), rgb(20 20 18 / 72%)),
+    var(--parallax-shade),
     var(--parallax-image, url("images/luffy2.png"));
-  background-position: center;
+  background-position: var(--parallax-position);
   background-size: cover;
   background-attachment: fixed;
 }
 
-/* Lay the previous, next, and pause controls in a row. */
+/* This layer holds the next image while it swipes over the current one. */
+.intro--parallax::after,
+.commission-parallax::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -8%;
+  opacity: 0;
+  pointer-events: none;
+  background-image:
+    var(--parallax-shade),
+    var(--incoming-image, url("images/luffy2.png"));
+  background-position: var(--parallax-position);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Start the incoming image offscreen when JavaScript adds this class. */
+.intro--parallax.is-swiping::after,
+.commission-parallax.is-swiping::after {
+  opacity: 1;
+  animation: parallax-swipe 720ms cubic-bezier(.22, .61, .36, 1) both;
+}
+
+/* Slide the new image horizontally until it covers the section. */
+@keyframes parallax-swipe {
+  from {
+    transform: translateX(var(--swipe-start, 100%));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Lay out the previous, next, and pause controls in one row. */
 .parallax-controls {
   position: relative;
   z-index: 1;
@@ -314,13 +364,13 @@ a:hover { color: var(--accent); }
   margin-top: 24px;
 }
 
-/* Place the shelf controls across the bottom of its grid. */
+/* Put the shelf controls across the bottom of that section. */
 .commission-parallax .parallax-controls {
   grid-column: 1 / -1;
   margin-top: 0;
 }
 
-/* Give the buttons enough contrast over the images. */
+/* Style buttons so they remain visible over the background image. */
 .parallax-controls button {
   padding: 8px 12px;
   border: 1px solid rgb(255 255 255 / 65%);
@@ -331,23 +381,32 @@ a:hover { color: var(--accent); }
   cursor: pointer;
 }
 
-/* Make the current slide number readable. */
+/* Dim the arrows briefly while an image is swiping. */
+.parallax-controls button:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+/* Keep the current slide number readable over the image. */
 .parallax-controls span {
   color: white;
   font-size: .75rem;
 }
 
-/* Keep fixed backgrounds from being used on phones or for reduced-motion users. */
+/* On phones and for reduced-motion settings, use normal scrolling backgrounds. */
 @media (max-width: 650px), (prefers-reduced-motion: reduce) {
-  .intro--parallax,
-  .commission-parallax {
+  .intro--parallax::before,
+  .intro--parallax::after,
+  .commission-parallax::before,
+  .commission-parallax::after {
     background-attachment: scroll;
   }
 }
 
-/* Stack the bio and link, aligned to the left. */
-.intro-bottom {
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 18px;
+/* Skip the swipe animation for visitors who request reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .intro--parallax.is-swiping::after,
+  .commission-parallax.is-swiping::after {
+    animation: none;
+  }
 }
