@@ -27,8 +27,16 @@
       <h1 id="intro-title">I build worlds and the paths that lead there.</h1>
       <div class="intro-bottom">
         <p>I’m Julian Bergado, a Filipino-American EECS student, illustrator, and educator at UC Berkeley. I create character art and visual stories, explore animation and interactive media, and teach technical ideas in approachable ways.</p>
-        <break><a class="scroll-link" href="#public-work">Explore the work <span aria-hidden="true">↓</span></a>
+        <a class="scroll-link" href="#public-work">Explore the work <span aria-hidden="true">↓</span></a>
       </div>
+
+      <div class="parallax-controls" role="group" aria-label="Intro background controls">
+        <button type="button" data-previous aria-label="Previous intro background">←</button>
+        <span data-slide-count aria-hidden="true">1 / 2</span>
+        <button type="button" data-next aria-label="Next intro background">→</button>
+        <button type="button" data-toggle-rotation>Pause</button>
+      </div>
+
     </section>
 
     <!-- These are the nine Instagram posts Julian selected for this portfolio. -->
@@ -103,7 +111,7 @@
     </section>
 
     <!-- Show that the art has reached people in print, online, and through commissions. -->
-    <section class="commission-section" aria-labelledby="commission-title">
+    <section class="commission-section commission-parallax" aria-labelledby="commission-title">
       <div class="commission-copy">
         <p class="eyebrow">03 / INDEPENDENT ILLUSTRATION & DESIGN</p>
         <h2 id="commission-title">From screen<br>to someone's shelf.</h2>
@@ -115,6 +123,14 @@
         <div><strong>10+</strong><span>commission requests in the first week</span></div>
       </div>
       <p class="event-note">Debut vending event: DCPLA Art & Lit Fest.</p>
+
+      <div class="parallax-controls" role="group" aria-label="Artwork background controls">
+        <button type="button" data-previous aria-label="Previous artwork background">←</button>
+        <span data-slide-count aria-hidden="true">1 / 2</span>
+        <button type="button" data-next aria-label="Next artwork background">→</button>
+        <button type="button" data-toggle-rotation>Pause</button>
+      </div>
+
     </section>
 
     <!-- A compact section connects visual work to storytelling and collaboration. -->
@@ -144,5 +160,9 @@
 
   <!-- Instagram's embed script turns the nine blockquotes above into Instagram posts. Load it once. -->
   <script async src="https://www.instagram.com/embed.js"></script>
+
+  <script src="script.js" defer></script>
+  <script async src="https://www.instagram.com/embed.js"></script>
+
 </body>
 </html>

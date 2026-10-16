@@ -262,7 +262,7 @@ a:hover { color: var(--accent); }
   color: white;
   background-image:
     linear-gradient(rgb(20 20 18 / 45%), rgb(20 20 18 / 55%)),
-    url("images/luffy2.png");
+    var(--parallax-image, url("images/luffy2.png"));
   background-position: center 40%;
   background-size: cover;
   background-attachment: fixed;
@@ -290,6 +290,57 @@ a:hover { color: var(--accent); }
 /* Fixed backgrounds can be unreliable on phones; show the image normally there. */
 @media (max-width: 650px), (prefers-reduced-motion: reduce) {
   .intro--parallax {
+    background-attachment: scroll;
+  }
+}
+
+/* Add an image background and dark overlay to the shelf section. */
+.commission-parallax {
+  background-image:
+    linear-gradient(rgb(20 20 18 / 62%), rgb(20 20 18 / 72%)),
+    var(--parallax-image, url("images/luffy2.png"));
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Lay the previous, next, and pause controls in a row. */
+.parallax-controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Place the shelf controls across the bottom of its grid. */
+.commission-parallax .parallax-controls {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+/* Give the buttons enough contrast over the images. */
+.parallax-controls button {
+  padding: 8px 12px;
+  border: 1px solid rgb(255 255 255 / 65%);
+  background: rgb(20 20 18 / 60%);
+  color: white;
+  font: inherit;
+  font-size: .78rem;
+  cursor: pointer;
+}
+
+/* Make the current slide number readable. */
+.parallax-controls span {
+  color: white;
+  font-size: .75rem;
+}
+
+/* Keep fixed backgrounds from being used on phones or for reduced-motion users. */
+@media (max-width: 650px), (prefers-reduced-motion: reduce) {
+  .intro--parallax,
+  .commission-parallax {
     background-attachment: scroll;
   }
 }
